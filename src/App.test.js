@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders App', () => {
   const { getByText } = render(<App />);
-  const divElement = getByText('Hello world');
+  const divElement = getByText('Technical Test for Jayway - Quiz');
   expect(divElement).toBeInTheDocument();
 });
