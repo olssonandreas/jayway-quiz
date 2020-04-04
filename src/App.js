@@ -4,9 +4,12 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import useFetch from 'hooks/fetch';
 import { Quiz, Result } from 'components'
 
 export default () => {
+  const res = useFetch("https://opentdb.com/api.php?amount=10&type=multiple", {});
+
   return (
     <Router>
       <h1>Technical Test for Jayway - Quiz</h1>
@@ -15,7 +18,7 @@ export default () => {
             <Result />
           </Route>
           <Route path="/">
-            <Quiz />
+            <Quiz activeGame={false} game={res.response} />
           </Route>
         </Switch>
     </Router>
