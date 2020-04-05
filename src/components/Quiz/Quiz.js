@@ -10,14 +10,15 @@ import { shuffle } from 'utils';
 import styles from './Quiz.module.scss';
 
 export default props => {
+  const QUESTION_AMOUNT = props && props.game && props.game.results.length;
+  const history = useHistory();
+
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [activeGame, setActiveGame] = useState(props.activeGame);
-  const [userAnswers, setAnswers] = useState([]);
+  const [gameAnswers, setGameAnswers] = useState([]);
   const [time, setTime] = useState(15);
   const [timeLifeLineActive, setTimeLifeLineActive] = useState(false);
-  const [gameAnswers, setGameAnswers] = useState([]);
-  const history = useHistory();
-  const QUESTION_AMOUNT = props && props.game && props.game.results.length;
+  const [userAnswers, setAnswers] = useState([]);
 
   // concatenate and shuffle memoized array so that the correct answer places on different index
   // we use memoize here since otherwise each re-render would give us a different shuffle and also us save some computing power
