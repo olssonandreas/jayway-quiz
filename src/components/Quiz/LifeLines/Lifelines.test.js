@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, queryByTestId } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import LifeLines from './LifeLines';
 
 

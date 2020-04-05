@@ -4,12 +4,11 @@ import ReactHtmlParser from 'react-html-parser';
 export default props => {
   if(!props.question) return null;
 
-  const { question: { category, question }} = props;
-  
+  const { question: { question }} = props;
+
   return (
   <div data-testid="question">
-    <p>Category: { ReactHtmlParser(category) }</p>
-    <p>Question: { ReactHtmlParser(question) }</p>
+    <h2>{ ReactHtmlParser(question) }</h2>
   </div>
   );
 };

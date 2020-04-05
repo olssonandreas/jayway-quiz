@@ -1,0 +1,52 @@
+.quiz {
+  max-width: 800px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.question {
+  height: 300px;
+}
+
+.loading {
+  text-align: center;
+  align-self: center;
+}
+
+.time {
+  font-size: 30px;
+  text-align: center;
+}
+
+.lifeLineRow {
+  display: flex;
+  flex-direction: row;
+  padding: 0 40px;
+}
+
+.addTime {
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.start {
+  border: 1px solid #fff;
+  width: 200px;
+  font-weight: bold;
+  height: 50px;
+  padding: 10px;
+  align-self: center;
+  &:hover{
+    text-decoration: none;
+  }
+}
+
+.removeAnswer {
+  margin-left: auto;
+  cursor: pointer;
+}

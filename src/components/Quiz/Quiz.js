@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from "react-router-dom";
+
 import Question from './Question';
 import Timer from './Timer';
 import Answer from './Answer';
 import LifeLines from './LifeLines';
-import shuffle from 'utils/shuffle';
+import { shuffle } from 'utils';
+
+import styles from './Quiz.module.scss';
 
 export default props => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [activeGame, setActiveGame] = useState(props.activeGame);
   const [userAnswers, setAnswers] = useState([]);
-  const [time, setTime] = useState(15);
+  const [time, setTime] = useState(1);
   const [gameAnswers, setGameAnswers] = useState([]);
   const history = useHistory();
   const QUESTION_AMOUNT = props && props.game && props.game.results.length;
 
-   // concatenate and shuffle memoized array so that the correct answer places on different index
-   // we use memoize here since otherwise each re-render would give us a different shuffle and save some computing
+  // concatenate and shuffle memoized array so that the correct answer places on different index
+  // we use memoize here since otherwise each re-render would give us a different shuffle and also us save some computing power
   const memoGameAnswers = useMemo(() => {
     if(!props.game) return [];
     const { game: { results } } = props;
@@ -37,8 +40,8 @@ export default props => {
   useEffect(() => {
     if(activeGame) {
       const interval = setInterval(() => {
-        setTime(seconds => seconds - 1);
-        if(time === 1) {
+        setTime(seconds => seconds + 1);
+        if(time === 15) {
           const newUserAnswer = [...userAnswers];
           newUserAnswer.push({ answer: '', time});
           setAnswers(newUserAnswer);
@@ -47,7 +50,7 @@ export default props => {
             history.push('/result', { userAnswers, game: props.game.results });
           } else {
             setActiveQuestion(activeQuestion + 1);
-            setTime(15);
+            setTime(1);
           }
         }
       }, 1000);
@@ -56,7 +59,7 @@ export default props => {
   }, [activeGame, time, activeQuestion, userAnswers, QUESTION_AMOUNT, history, props]);
 
   const addTime = () => {
-    setTime(time + 10);
+    setTime(time - 10);
   };
 
   const removeAnswers = () => {
@@ -68,14 +71,15 @@ export default props => {
     setGameAnswers(half);
   };
 
-  const setAnswer = answer => {
+  const setAnswer = event => {
+    const answer = event.target.dataset.answer
     userAnswers.push({ answer, time });
-
+    // if its the last question, route to results page and send needed data
     if(activeQuestion === QUESTION_AMOUNT -1) {
       history.push('/result', { userAnswers, game: props.game.results });
     } else {
       setActiveQuestion(activeQuestion + 1);
-      setTime(15);
+      setTime(1);
     }
   };
 
@@ -83,17 +87,24 @@ export default props => {
     setActiveGame(true);
   };
 
-  if(!props.game) return (<div data-testid="loading">Loading</div>);
+  if(!props.game) return (<div className={styles.loading} data-testid="loading">Loading game...</div>);
 
-  if(!activeGame) return (<button data-testid="startGame" onClick={startGame}>Start game</button>);
+  if(!activeGame) {
+    return (
+    <button className={styles.start} data-testid="startGame" onClick={startGame}>Start game</button>
+    );
+  }
 
   return (
-  <div data-testid="quiz">
-    <Question question={props.game.results[activeQuestion]} />
+  <div className={styles.quiz} data-testid="quiz">
+    <div className={styles.question}>
+      <Question question={props.game.results[activeQuestion]} />
+      <div className={styles.row}>
+        { gameAnswers.map((m, index) => <Answer key={index} answer={m} setAnswer={setAnswer}/> )}
+      </div>
+    </div>
     <Timer time={time} />
-    { gameAnswers.map((m, index) => <Answer key={index} answer={m} setAnswer={setAnswer}/> )}
     <LifeLines addTime={addTime} removeAnswers={removeAnswers}/>
-    <div> {} </div>
   </div>
   );
 };

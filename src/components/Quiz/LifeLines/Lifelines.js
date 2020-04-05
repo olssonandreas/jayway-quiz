@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
+
+import styles from '../Quiz.module.scss';
 
 export default props => {
 const [usedAddTime, setUsedAddTime] = useState(false);
@@ -15,9 +17,9 @@ const removeAnswer = () => {
 };
 
 return (
-    <Fragment>
-      <div data-testid="addTime" onClick={!usedAddTime ? addTime : null}>10+ seconds</div>
-      <div data-testid="removeAnswer" onClick={!usedRemoveAnswer ? removeAnswer : null}>50/50</div>
-    </Fragment>
+    <div className={styles.lifeLineRow}>
+      { !usedAddTime && <div className={styles.addTime} data-testid="addTime" onClick={addTime}>10+ seconds</div> }
+      { !usedRemoveAnswer && <div className={styles.removeAnswer} data-testid="removeAnswer" onClick={removeAnswer}>50/50</div> }
+    </div>
   );
 };
