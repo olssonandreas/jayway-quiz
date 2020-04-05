@@ -13,7 +13,8 @@ export default props => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [activeGame, setActiveGame] = useState(props.activeGame);
   const [userAnswers, setAnswers] = useState([]);
-  const [time, setTime] = useState(1);
+  const [time, setTime] = useState(15);
+  const [timeLifeLineActive, setTimeLifeLineActive] = useState(false);
   const [gameAnswers, setGameAnswers] = useState([]);
   const history = useHistory();
   const QUESTION_AMOUNT = props && props.game && props.game.results.length;
@@ -40,26 +41,32 @@ export default props => {
   useEffect(() => {
     if(activeGame) {
       const interval = setInterval(() => {
-        setTime(seconds => seconds + 1);
-        if(time === 15) {
+        setTime(seconds => seconds - 1);
+        if(time === 1) {
           const newUserAnswer = [...userAnswers];
-          newUserAnswer.push({ answer: '', time});
+          newUserAnswer.push({
+            answer: '',
+            time: timeLifeLineActive ? 25 - time : 15 - time
+          });
+
+          setTimeLifeLineActive(false);
           setAnswers(newUserAnswer);
 
           if(activeQuestion === QUESTION_AMOUNT -1) {
             history.push('/result', { userAnswers, game: props.game.results });
           } else {
             setActiveQuestion(activeQuestion + 1);
-            setTime(1);
+            setTime(15);
           }
         }
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [activeGame, time, activeQuestion, userAnswers, QUESTION_AMOUNT, history, props]);
+  }, [activeGame, time, activeQuestion, userAnswers, QUESTION_AMOUNT, history, props, timeLifeLineActive]);
 
   const addTime = () => {
-    setTime(time - 10);
+    setTimeLifeLineActive(true);
+    setTime(time + 10);
   };
 
   const removeAnswers = () => {
@@ -73,13 +80,17 @@ export default props => {
 
   const setAnswer = event => {
     const answer = event.target.dataset.answer
-    userAnswers.push({ answer, time });
+    userAnswers.push({
+      answer,
+      time: timeLifeLineActive ? 25 - time :  15 - time });
+
+      setTimeLifeLineActive(false);
     // if its the last question, route to results page and send needed data
     if(activeQuestion === QUESTION_AMOUNT -1) {
       history.push('/result', { userAnswers, game: props.game.results });
     } else {
       setActiveQuestion(activeQuestion + 1);
-      setTime(1);
+      setTime(15);
     }
   };
 

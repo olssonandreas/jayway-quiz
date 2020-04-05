@@ -22,9 +22,9 @@ export default ({ answers }) => {
 
   return (
     <div data-testid="time">
-      <h2>Fastest answer time: {fastestQuestions}s</h2>
-      <h2>Slowest answer time: {slowestQuestions}s</h2>
-      <h2>Average answer time: {averAgeTime}s</h2>
+      <h2>Fastest answer time: {fastestQuestions === 0 ? 'less than one second!' : `${fastestQuestions}s` }</h2>
+      <h2>Slowest answer time: {slowestQuestions === 0 ? 'less than one second' : `${slowestQuestions}s` }</h2>
+      <h2>Average answer time: {averAgeTime === 0 ? 'less than one second!' : `${averAgeTime}s` }</h2>
     </div>
   );
 };

@@ -5,6 +5,6 @@ export default ({ time }) => {
   if(time == null) return null;
 
   return (
-    <div className={styles.time} data-testid="timer"> Time left: {16 - time} </div>
+    <div className={styles.time} data-testid="timer"> Time left: { time } </div>
   );
 };
