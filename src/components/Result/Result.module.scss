@@ -1,0 +1,12 @@
+.playAgain {
+  display: block;
+  border: 1px solid #fff;
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  margin: 60px auto;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
