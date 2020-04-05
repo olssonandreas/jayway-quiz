@@ -5,22 +5,24 @@ import {
   Route,
 } from "react-router-dom";
 import useFetch from 'hooks/fetch';
+
 import { Quiz, Result } from 'components'
 
 export default () => {
-  const res = useFetch("https://opentdb.com/api.php?amount=10&type=multiple", {});
+  const res = useFetch("https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple", {});
 
   return (
-    <Router>
-      <h1>Technical Test for Jayway - Quiz</h1>
-        <Switch>
-          <Route path="/result">
-            <Result />
-          </Route>
-          <Route path="/">
-            <Quiz activeGame={false} game={res.response} />
-          </Route>
-        </Switch>
-    </Router>
+    <div className="app">
+      <Router>
+          <Switch>
+            <Route path="/result">
+              <Result />
+            </Route>
+            <Route path="/">
+              <Quiz activeGame={false} game={res.response} />
+            </Route>
+          </Switch>
+      </Router>
+    </div>
   );
 }
