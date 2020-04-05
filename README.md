@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Quick start
-1. Add .env file with `NODE_PATH="src"`
+1. Add .env file in root with `NODE_PATH="src"`
 2. run `npm install`
 3. run `npm start`
 
